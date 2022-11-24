@@ -1,10 +1,319 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-     <title>复旦三班</title>
-  复旦三班
+﻿<!DOCTYPE html>
+<!-- saved from url=(0040)https://fdhs.chneic.sh.cn/FDPM/index.jsp -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<base href="https://fdhs.chneic.sh.cn:443/FDPM/">--><base href=".">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit"> 
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <link rel="shortcut icon" href="https://fdhs.chneic.sh.cn/FDPM/images/favicon.ico" type="image/x-icon">
+    <title>两届之外的三班</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="IE=7; IE=9; IE=11">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  
+    <link rel="shortcut icon" href="https://fdhs.chneic.sh.cn/FDPM/images/favicon.ico">
+    <link rel="stylesheet" href="./上海市复旦中学_files/bootstrap.css">
+    <link rel="stylesheet" href="./上海市复旦中学_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./上海市复旦中学_files/adminate.css">  
+
+    <link rel="stylesheet" href="./上海市复旦中学_files/index.css">
+
+    <script src="./上海市复旦中学_files/jquery.min.js.下载"></script>
+    <script src="./上海市复旦中学_files/bootstrap.min.js.下载"></script>
+    <script src="./上海市复旦中学_files/jquery.liMarquee.js.下载"></script>
+	<script type="text/javascript" src="./上海市复旦中学_files/clientScript.js.下载"></script>
+    <script src="./上海市复旦中学_files/main.js.下载"></script>
+
 </head>
 <body>
-</body>
-</html>
+
+<!--------------------------顶部蓝色区域-------------------------->
+<div id="top" style="height: 900px;">
+    <div class="container">
+        <!--logo外部链接-->
+        <div id="top_href" style="height: 100.1px;">
+            <!--logo-->
+            <div class="top_left" style="height: 100.1px;">
+                <img src="./上海市复旦中学_files/logo.png" alt="logo" onclick="location.href=&#39;index.jsp&#39;">
+            </div>
+
+            <!--登录外部链接-->
+            <div class="top_right" style="height: 100.1px;">
+                <!--登录查询-->
+                <div class="top_righttop" style="height: 58.8824px;">
+                	<a id="login"><img src="./上海市复旦中学_files/icon_login.png" alt="" style="margin-right:10px;"></a>
+                	<a id="desktop" href="https://fdhs.chneic.sh.cn/FDZXSSO/desktop.jsp"></a>	       
+                	<a id="search"><img src="./上海市复旦中学_files/icon_search.png" alt=""></a>
+                	 
+                	<div class="searchBox">  
+	                	<input id="searchword" type="text" class="form-control"> 
+	               		<input type="button" class="form-control btn btn-info" value="搜索" onclick="search()">
+                    </div> 
+                    <div class="loginBox" style="display: none;">
+                    	<span class="closeLogin"></span>	      
+                    	<iframe frameborder="no" border="no" height="100%" width="100%" scrolling="no" src="./上海市复旦中学_files/caslogin.html"></iframe> 
+                    </div>          
+                </div>            
+                <!--外部链接-->
+                <div class="top_rightbottom" style="height: 41.225px;">
+                    <ul>
+                        <a href="https://fdhs.chneic.sh.cn/FDPM/index.jsp" class="select" style="width: 116.734px; line-height: 41.2188px;"><li style="font-size: 1.3em;">首页</li></a>
+                        <a href="https://www.zhixue.com/login.html" style="width: 116.734px; line-height: 41.2188px;"><li>智学评价</li></a>
+                        <a href="http://10.81.114.50:8081/LPM/" style="width: 116.734px; line-height: 41.2188px;"><li>图书馆</li></a>
+                        <a href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=398&amp;pm=397" style="width: 116.734px; line-height: 41.2188px;"><li>录播点播</li></a>   
+                        <a href="https://fdapp.chneic.sh.cn/" style="width: 116.734px; line-height: 41.2188px;"><li>校园APP</li></a>
+                        <a href="javascript:void(0);" style="width: 116.734px; line-height: 41.2188px;"><li>消费系统</li></a>
+                        <a href="https://fdhs.chneic.sh.cn/FDPM/wmzx.jsp?m=328&amp;pm=326&amp;mo=2" style="width: 116.734px; line-height: 41.2188px;"><li>文明在线</li></a>
+                        <a href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=364&amp;pm=327" style="width: 116.734px; line-height: 41.2188px;"><li>学校督学</li></a>
+  
+                    </ul> 
+                </div>
+            </div>
+        </div>
+        <!--轮播图片append_banner()-->
+        <div id="top_banner">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 549.204px;">
+                <!-- 轮播（Carousel）项目 -->
+                <div class="carousel-inner"><div class="item"><a href="http://fdhs.chneic.sh.cn/FDPM/news/fda81c394e6c4bdf9ae2d6d26ff1e71f.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/a8f220762eea45408fcf54e1105fb237.jpg" alt="slide"></a></div><div class="item"><a href="http://fdhs.chneic.sh.cn/FDPM/news/b18fa830f32f4dc3b51b54297c4c3dfa.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/120f472a6da44bb482210f200d2d06ca.jpg" alt="slide"></a></div><div class="item"><a href="http://fdhs.chneic.sh.cn/FDPM/news/0bccc661adef4c408e0037881cbf0126.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/b35703b3811247afb7dabe4dd1090a69.jpg" alt="slide"></a></div><div class="item active left"><a href="http://fdhs.chneic.sh.cn/FDPM/news/ec526814037144ff84721900e778d433.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/0ba4d53c490248838acab65a278d5237.png" alt="slide"></a></div><div class="item next left"><a href="http://fdhs.chneic.sh.cn/FDPM/news/87e777349b10410dab8561c3ed4a2e72.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/008f0bef212e4cdb83d11cfbbe2869b1.jpg" alt="slide"></a></div></div> 
+                <!-- 轮播（Carousel）导航 -->
+                <a class="carousel-control left" href="https://fdhs.chneic.sh.cn/FDPM/#myCarousel" data-slide="prev"><img src="./上海市复旦中学_files/left.png" alt=""></a>
+                <a class="carousel-control right" href="https://fdhs.chneic.sh.cn/FDPM/#myCarousel" data-slide="next"><img src="./上海市复旦中学_files/right.png" alt=""></a>
+            </div>
+        </div>
+        <!--一级菜单-->
+        <div id="top_nav">
+            <ul style="height: 50.697px;"><a id="384" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=384&amp;pm=269"><li style="width: 183.721px; line-height: 50.6875px;">党建工会</li></a><a id="286" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=286&amp;pm=282"><li style="width: 183.721px; line-height: 50.6875px;">教学园地</li></a><a id="386" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=386&amp;pm=296"><li style="width: 183.721px; line-height: 50.6875px;">德育之窗</li></a><a id="309" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=309&amp;pm=306"><li style="width: 183.721px; line-height: 50.6875px;">教育科研</li></a><a id="321" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=321&amp;pm=320"><li style="width: 183.721px; line-height: 50.6875px;">运维保障</li></a><a id="319" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=319&amp;pm=315"><li style="width: 183.721px; line-height: 50.6875px;">内地民族教育</li></a><a id="391" href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=391&amp;pm=310"><li style="width: 183.721px; line-height: 50.6875px;">交流合作</li></a></ul>
+        </div>
+        <!--校园公告top_news();-->
+        <div id="top_news">
+            <a href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=271&amp;pm=268"><div class="pic">
+            	<img alt="" src="./上海市复旦中学_files/news.png" height="100%">
+            	<!-- <span>校园公告</span> -->
+            </div></a>    
+            <div class="world" style="width: 1283.55px;">  
+                <div class="world_box str_wrap no_drag" style="height: 52px;"><div class="str_move str_origin" style="left: -1659.25px;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/5447c9fdb1a34e8b8f9860921edf74f9.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市实验、市特色）录取名单</font></strong></span><span class="right">2022-08-10</span></a><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/4297ec6b53c842f98df493d4172ee6c0.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市级优秀体育）录取名单</font></strong></span><span class="right">2022-08-10</span></a><div class="str_move str_move_clone" style="left: 100%; right: auto; width: 1305.34px;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/5447c9fdb1a34e8b8f9860921edf74f9.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市实验、市特色）录取名单</font></strong></span><span class="right">2022-08-10</span></a><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/4297ec6b53c842f98df493d4172ee6c0.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市级优秀体育）录取名单</font></strong></span><span class="right">2022-08-10</span></a></div><div class="str_move str_move_clone" style="right: 100%; left: auto; width: 1305.34px;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/5447c9fdb1a34e8b8f9860921edf74f9.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市实验、市特色）录取名单</font></strong></span><span class="right">2022-08-10</span></a><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/4297ec6b53c842f98df493d4172ee6c0.html?m=271&amp;pm=268"><span class="left"><img src="./上海市复旦中学_files/li_square.png" alt=""> <strong><font color="#FF0000">2022年上海市复旦中学高中自主招生（市级优秀体育）录取名单</font></strong></span><span class="right">2022-08-10</span></a></div></div></div>  
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------校园新闻indexnews();-------------------------->
+<div id="center_top">
+    <div class="container" id="xyxwBox"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 news_title"><a href="https://fdhs.chneic.sh.cn/FDPM/newslist.jsp?m=270&amp;pm=268"><h3><img src="./上海市复旦中学_files/news_icon.png" alt="校园新闻">&nbsp;校园新闻<small>CAMPUS NEWS</small></h3></a></div><div class="new_square animated fadeInDown" style="visibility: visible;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/3ff944919a2f40609968506226f122b6.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/7c603bf96f614aa4a1d79bbdca152a35.jpg" alt="" onerror="this.src=&#39;images/newPic.jpg&#39;" style="height: 198.979px;"><h4 style="white-space: normal!important;">切问近思| 艺术与感觉（下）</h4><span>2022-11-18</span></a></div><div class="new_square animated fadeInDown" style="visibility: visible;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/cdea5914df2e4580b17745df5c61e25a.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/b9ce3db14f7a4d22b1af80da23ad7748.png" alt="" onerror="this.src=&#39;images/newPic.jpg&#39;" style="height: 198.979px;"><h4 style="white-space: normal!important;">切问近思|艺术与感觉（上）</h4><span>2022-10-28</span></a></div><div class="new_square animated fadeInDown" style="visibility: visible;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/9155d303b25b46899cc6e88baab6e630.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/2ed9d20e834b4be9b9af9314fb5b27bc.jpg" alt="" onerror="this.src=&#39;images/newPic.jpg&#39;" style="height: 198.979px;"><h4 style="white-space: normal!important;">上海市复旦中学校领导班子成员宣布任命大会在复旦中学举行</h4><span>2020-10-01</span></a></div><div class="new_square animated fadeInDown" style="visibility: visible;"><a target="_blank" href="https://fdhs.chneic.sh.cn/FDPM/news/fb50bc92d120422db4806c25463eabc0.html?m=270&amp;pm=268"><img src="./上海市复旦中学_files/d96aa4b1590f4b07a7f30eac79ff787d.jpg" alt="" onerror="this.src=&#39;images/newPic.jpg&#39;" style="height: 198.979px;"><h4 style="white-space: normal!important;"><strong><font color="#FF0000">共建复旦中学，打造特色名校！复旦大学和长宁区正式签约</font></strong></h4><span>2020-05-08</span></a></div></div> 
+</div>
+
+<!--------------------------班级简介-------------------------->
+<div id="center_middle">
+    <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 news_title">
+            <!-- <img src="images/school_title.png" alt="班级简介"/> -->  
+            <h3><img src="./上海市复旦中学_files/school_icon.png" alt="学校简介">&nbsp;学校简介<small>SCHOOL PROFILE</small></h3>
+        </div>
+        <!--图片-->
+        <div class="school_left animated rollIn" style="visibility: visible;">
+            <img src="./上海市复旦中学_files/school.jpg" alt="" onerror="">
+        </div>
+        <!--文章内容-->
+        <div class="school_right animated zoomInUp" style="visibility: visible;">
+            <p>
+                两届之外的三班为国家培养了一大批诸如陈寅恪、罗家伦、胡绳、金冲及等文化名人、大师及15位院士。一百多年来，复旦中学为国家培养了一批
+                文化名人、名师，多位院士，输送了数以万计的国家栋梁之材。
+            </p>
+            <p>
+                两届之外的三班多次被评为上海市文明单位、上海市教育系统先进集体、上海市教育系统“五五”普法先进单位、上海市中小学行为规范示范学校、联合国教科文
+                组织环境人口与可持续发展（EPD）项目实验学校、上海市科技教育特色示范校学校、上海市TI数理教学技术示范学校、上海市德育管理与研究实训基地主
+                持人学校、上海市“2049（全民科学素养行动计划）项目”试点学校、上海市关心下一代工作先进集体、上海市知识产权试点学校等荣誉称号。学校与境内
+                外数十所名校结为友好学校，长期开展境内外师生教育交流。
+            </p>
+        </div>
+    </div>
+</div>
+
+<!--------------------------校园风采-------------------------->
+<div id="center_bottom" style="height: 700px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 news_title">
+           <!--  <img src="images/fengcai_title.png" alt="校园风采"/> -->
+            <h3><img src="./上海市复旦中学_files/fengcai_icon.png" alt="校园风采">&nbsp;校园风采<small>CAMPUS ELEGANCE</small></h3>
+        </div>
+    </div> 
+    <div class="F_pic" style="height: 602.047px;">
+        <div class="F_box" style="padding: 67.9375px;">
+            <!--第一行-->
+            <div class="pic_box" style="height: 114.052px;"></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/161ac1533a78428d81196cb0288015ea.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/3d81e81e6f874916a06dd4ef7c2ac842.jpg" alt=""></a></div> 
+            <div class="pic_box" style="height: 114.052px;"></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/55d7b00bd53745c18733a35b6424b402.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/38e795d450da4f99a805a2af1eae6f04.jpg" alt=""></a></div>
+            <div class="pic_box" style="height: 114.052px;"></div>
+
+            <!--第二行-->
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/bce250e62c4e4726b0fc22483b69e7bc.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/8189d5768519483c8219d6bf697a45bf.jpg" alt=""></a></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>晨钟书声</span></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/93cf1a076b3c4826bef7d51e0b907b36.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/c0f4840ec8594b999b6f15e11a073e06.jpg" alt=""></a></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>国师仰止</span></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/c53e97490b9b423a916c9b677bca448c.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/92940d221fce4b33aefcc2d0a518c9f7.jpg" alt=""></a></div>
+
+            <!--第三行-->
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>志笃行毅</span></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/f402469cf56b42fda1499976e76c25b2.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/429c5b700b2f4606a8c9f247e470e732.jpg" alt=""></a></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>巍巍学府</span></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/c7e4f366aa3b448ab3722a7cb70db634.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/d08a584dec164ba393119986f8e0cb2b.jpg" alt=""></a></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>中山兰诲</span></div>
+
+            <!--第四行-->
+            <div class="pic_box" style="height: 114.052px;"></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>翠笼古殿</span></div>
+            <div class="pic_box pichover" style="height: 114.052px;"><a href="https://fdhs.chneic.sh.cn/FDPM/news/3bb687e83a0b44dabcf479ddd8ce6c21.html?m=317&amp;pm=267"><img src="./上海市复旦中学_files/4b4a3d9859d1490db4e39256e7230415.jpg" alt=""></a></div>
+            <div class="pic_box titlehover" style="height: 114.052px;"><span>五四钟声</span></div>
+            <div class="pic_box" style="height: 114.052px;"></div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 titlehover"><span>沪滨名门</span></div> 
+        </div>
+    </div>
+</div>
+
+<!--------------------------footer-------------------------->
+<footer>
+    <div class="container">
+        <p class="fist">复旦基础教育联盟：<a href="https://www.fudan.edu.cn/2019/0506/c1342a103192/page.htm">复旦大学外联处</a><a href="https://www.fdfz.cn/">复旦大学附属中学</a><a href="https://fdhs.chneic.sh.cn/FDPM/#">上海市复兴高级中学</a><a href="https://fdhs.chneic.sh.cn/FDPM/#">重庆复旦中学</a><a href="http://www.fdhs.tyc.edu.tw/">台湾复旦高级中学</a><a href="https://fdhs.chneic.sh.cn/FDPM/#">贵州乌江复旦学校</a></p> 
+        <p><a>版权所有：复旦中学      沪ICP备06032912号-1    沪公网安备 31010502000347号</a></p>
+        <p><a>上海市长宁区华山路1626号   电话：62800172-8214 <img src="./上海市复旦中学_files/footer_ico1.png" alt="">&nbsp;&nbsp;&nbsp;<img src="./上海市复旦中学_files/footer_ico2.png" alt=""></a></p>
+    </div>
+</footer>
+<!--------------------------//浮动窗口-------------------------->
+<div id="fudong" style="position: fixed; left: 50px; top: 60px; display: none;">
+    <!-- <div id="a" style="width:20px;height:20px;position:absolute;left:160px;background:salmon;text-align: center;cursor:pointer">×</div>
+    <div style="width:auto;height:130px;"></div> --> 
+</div> 
+  
+  
+<script type="text/javascript">
+	var userCode = '';
+	var userName = '';
+	 var xin = true, // true向右偏移,false向左偏移，首次为true，默认向右偏移
+     yin = true; // true向下偏移,false向上偏移，首次为true，默认向下偏移
+	 var step = 1; // 每次移动偏移量
+	 var delay = 10; // 定时函数定时时间
+	 var $obj;
+    $(function(){
+		updateStatic('首页');
+    	//确认是否登录 
+        if(userName == ''){     
+        	$(".loginBox iframe").attr("src","caslogin.jsp");
+	    }else{            
+	    	$("#desktop").html("欢迎"+userName+"，进入个人桌面      ");     
+	    	$("#login").click(function(){
+	        	$(".loginBox").css("display","none");     
+	        })
+	    } 
+        //不同设备显示不同页面
+        commom();   
+        var browser = {
+            versions: function() {
+                var u = navigator.userAgent,
+                        app = navigator.appVersion;
+                return {
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                    android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1,
+                    iPhone: u.indexOf("iPhone") > -1,
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            } (),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        };
+        //手机
+        if(browser.versions.mobile){
+            window.location.href="index_phone.jsp";
+            phone_nav();//手机导航         
+    		$('#fudong').css("display",'none');//浮动关闭
+        }else{
+        	append_banner();//轮播图  
+	        pvnav();  //导航
+	        top_news();//校园公告
+	        indexnews();//主页校园新闻
+	        yqLink();//友情链接
+        }
+        FC_img();//校园风采
+        //浮动窗口
+        fudong();
+        //浮动关闭
+        $("#a").click(function () {
+            var b = $("#a").parent();
+            $(b).remove();
+        }) 
+    }) 
+    //  浮动窗
+    function fudong(){
+        $.ajax({
+            url: "Svl_FloatingWindowManage?active=getList",//json文件位置
+            type: "GET",//请求方式为get
+            dataType: "json", //返回数据格式为json
+            success: function(data) {//请求成功完成后要执行的方法
+            	console.log(data);
+            	if (data[0].状态==1){
+                	console.log(data); 
+	            	$obj = $("#fudong");
+	            	$obj.empty();
+	            	var str = '<div id="a" style="width:20px;height:20px;position:absolute;left:0;background: #fff;text-align: center;cursor:pointer;font-weight:bold;">×</div>'+
+	            			'<div style="height:130px;width:auto"><a href="'+data[0].链接+'"><img src="'+data[0].图片+'" height="100%"/></a></div>'
+	            	$obj.append(str);      
+	            	var time = window.setInterval("move()", delay);
+	                $obj.mouseover(function () { 
+	                    clearInterval(time)
+	                }); 
+	                $obj.mouseout(function () {
+	                    time = window.setInterval("move()", delay)
+	                });
+            	}else{
+            		$('#fudong').css("display",'none');
+            	}
+            }
+        })
+    }
+        //浮动窗口
+    function move() {
+        var left = $obj.offset().left;
+        var top = $obj.offset().top;
+        var L = T = 0; //左边界和顶部边界
+        var R = $(window).width() - $obj.width(); // 右边界
+        var B = $(window).height() - $obj.height(); // 下边界
+
+        //难点:怎样判断广告的4个边框有没有超出可视化范围!
+        if (left < L) {
+            xin = true; // 水平向右移动
+        }
+        if (left > R) {
+            xin = false; // 水平向左移动
+        }
+        if (top < T) {
+            yin = true; // 垂直向下移动
+        }
+        if (top > B) {
+            yin = false; // 垂直向上移动
+        }
+        //根据有没有超出范围来确定广告的移动方向
+        left += step * (xin == true ? 1 : -1);
+        top += step * (yin == true ? 1 : -1);
+        // 给div 元素重新定位
+        $obj.offset({
+            top: top,
+            left: left
+        })
+    } 
+    function closeModal1(){
+       	$(".searchBox").hide();  
+       	$(".loginBox").hide();        
+    }
+    function alertMSG(msg){
+    	alert(msg);
+    }
+</script>  
+
+</body></html>
