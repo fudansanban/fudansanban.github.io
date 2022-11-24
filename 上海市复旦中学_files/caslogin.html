@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0150)https://fdhs.chneic.sh.cn/FDZXCAS/login?service=https%3A%2F%2Ffdhs.chneic.sh.cn%2FFDPM%2FssoProcessPage%3FtargetUrl%3D_base64_L0ZEUE0vY2FzbG9naW4uanNw -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <title>统一身份认证平台</title>
+        
+		
+        <link type="text/css" rel="stylesheet" href="./cas.css">
+        
+	    <link rel="icon" href="https://fdhs.chneic.sh.cn/FDZXCAS/favicon.ico" type="image/x-icon">
+	    	
+	    	
+	</head>
+	<body id="cas" onkeydown="keyLogin();">
+		
+
+
+
+
+
+
+<script src="./jquery.js.下载" type="text/javascript"></script>
+<script src="./jquery.alerts.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./md5.js.下载"></script>
+<link media="screen" href="./jquery.alerts.css" type="text/css" rel="stylesheet">
+<!--<LINK media=screen href="/FDZXCAS/js/styles.css" type=text/css rel=stylesheet>-->
+<link media="screen" href="./bootstrap(1).css" type="text/css" rel="stylesheet">
+
+
+
+<script type="text/javascript">
+var lock = 0;
+ var ifRight=0;
+ window.onload=function(){ 
+    var browser = getBrowserType(); //浏览器类型 
+    document.getElementById("browser").value=browser;
+    if ($("#msg") && $("#msg").text().length>0){
+	//window.parent.layer.alert('账户或密码错误');
+	$('#msg1').text('您的用户名或密码不正确').show();
+    }
+ }
+
+function autoSubmit(){  
+      $.ajax({
+          type: "POST",
+          url: '/FDZXCAS/checkcode',   //设置 SVL
+          data: {
+              code : $('#code').val(),
+			  token : $('#token').val(),
+              token_time : new Date().getTime()
+          },      
+          dataType: 'json',
+          success: function(data){
+              if (data){
+            	  $('#password').val(hex_md5($('#password').val()));
+                  $("#fm1").submit(); 
+              }else{              
+                  //window.parent.layer.alert('您提供的验证码有误');
+		$('#msg1').text('您的验证码不正确').show();
+              }
+          },error: function(data){
+              $( "#error" ).dialog({
+                  close:function(){
+                      location.href = location.href
+                  }
+              });
+              $( "#error" ).html("系统繁忙,请刷新后重试");
+		$('#msg1').text('系统繁忙,请刷新后重试').show();
+              //$("#error").dialog("open");
+          }
+      });
+}
+
+//长度8-30，必须含有大小写字母，数字，特殊符号
+function validateInput(para) {
+    var re =/^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])).{8,30}$/;
+    return re.test(para);
+}
+
+
+//获取地址栏参数
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+
+//enter键调用登陆按钮
+function keyLogin(){  
+  if (event.keyCode==13)                         
+//按Enter键的键值为13  
+     document.getElementById("auto").click(); 
+//调用登录按钮的登录事件  
+}  
+
+function refresh() {//验证码刷新
+    fm1.vali.src = "";
+    fm1.vali.src = "captcha.htm";
+    var img = document.getElementById("vali");
+    img.src = 'captcha.htm?t=' + new Date().getTime();
+}
+
+function closeModal(){
+	if (window.parent && window.parent.closeModal1){
+		window.parent.closeModal1();
+	}
+}
+
+function getBrowserType(){
+            //IE
+            if(navigator.userAgent.indexOf("MSIE")>0) {  
+                 return "IE";  
+            }  
+            //火狐
+            if(isFirefox=navigator.userAgent.indexOf("Firefox")>0){  
+                 return "Firefox";  
+            }  
+            //谷歌
+            //if(isMozilla=navigator.userAgent.indexOf("Gecko/")>0){  
+            if(isMozilla=navigator.userAgent.indexOf("Chrome")>0){  
+                 return "Google";  
+            } 
+            if(isSafari=navigator.userAgent.indexOf("Safari")>0) {  
+                 return "Safari";  
+            }   
+            if(isCamino=navigator.userAgent.indexOf("Camino")>0){  
+                 return "Camino";  
+            }  
+        }
+//秘钥
+    var base64encodechars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    var base64decodechars = new Array(
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
+    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,
+    -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);
+//解密开始
+    function base64decode(str) {
+        var c1, c2, c3, c4;
+        var i, len, out;
+        len = str.length;
+        i = 0;
+        out = "";
+        while (i < len) {
+           
+            do {
+                c1 = base64decodechars[str.charCodeAt(i++) & 0xff];
+            } while (i < len && c1 == -1);
+            if (c1 == -1)
+                break;
+           
+            do {
+                c2 = base64decodechars[str.charCodeAt(i++) & 0xff];
+            } while (i < len && c2 == -1);
+            if (c2 == -1)
+                break;
+            out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
+           
+            do {
+                c3 = str.charCodeAt(i++) & 0xff;
+                if (c3 == 61)
+                    return out;
+                c3 = base64decodechars[c3];
+            } while (i < len && c3 == -1);
+            if (c3 == -1)
+                break;
+            out += String.fromCharCode(((c2 & 0xf) << 4) | ((c3 & 0x3c) >> 2));
+           
+            do {
+                c4 = str.charCodeAt(i++) & 0xff;
+                if (c4 == 61)
+                    return out;
+                c4 = base64decodechars[c4];
+            } while (i < len && c4 == -1);
+            if (c4 == -1)
+                break;
+            out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
+        }
+        return out;
+    }
+    function utf8to16(str) {
+        var out, i, len, c;
+        var char2, char3;
+        out = "";
+        len = str.length;
+        i = 0;
+        while (i < len) {
+            c = str.charCodeAt(i++);
+            switch (c >> 4) {
+                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+                    // 0xxxxxxx
+                    out += str.charAt(i - 1);
+                    break;
+                case 12: case 13:
+                    // 110x xxxx   10xx xxxx
+                    char2 = str.charCodeAt(i++);
+                    out += String.fromCharCode(((c & 0x1f) << 6) | (char2 & 0x3f));
+                    break;
+                case 14:
+                    // 1110 xxxx  10xx xxxx  10xx xxxx
+                    char2 = str.charCodeAt(i++);
+                    char3 = str.charCodeAt(i++);
+                    out += String.fromCharCode(((c & 0x0f) << 12) |
+                       ((char2 & 0x3f) << 6) |
+                       ((char3 & 0x3f) << 0));
+                    break;
+            }
+        }
+        return out;
+    }
+    //解密结束
+    setTimeout(function(){refresh()},100);
+	
+	function findPass(){
+        if ($('#username').val()==''){
+            //$.messager.alert("","请输入登录名");
+            $('#msg1').text('凭证或格式错误').show();
+            return false;
+        }else{
+			$('#msg1').text('请稍后...').show();
+            if (!lock){
+                lock = 1;
+                $.ajax({
+                    type: "post",
+                    url: "/FDZXCAS/Svl_user",
+                    data: {
+                        'active':'findpass',
+                        'username':$('#username').val()
+                    },
+                    dataType: "text",
+                    success: function (data) {
+                        //$.messager.alert("",data);
+                        $('#msg1').text(data).show();
+                        lock = 0;
+                    },
+                    error: function(data){
+                        $('#msg1').text('系统繁忙,请刷新后重试').show();
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+<!--登陆部分_begin-->
+  <div id="modal1" style="width:360px; height:300px; background-image:url(&#39;images/login-back.png&#39;); background-size:100% 100%;">
+      <form id="fm1" name="fm1" class="fm-v clearfix" action="https://fdhs.chneic.sh.cn/FDZXCAS/login?service=https%3A%2F%2Ffdhs.chneic.sh.cn%2FFDPM%2FssoProcessPage%3FtargetUrl%3D_base64_L0ZEUE0vY2FzbG9naW4uanNw" method="post">
+          <div>
+          <!--用户名_begin-->  
+            <div style="margin-top:50px; margin-left:57px;">
+              <div style="background:url(&#39;images/infoSchool/yhm_iocn.png&#39;);border-radius: 50%; float:left; height:36px; width:36px;"></div>
+              
+              
+                  
+                  <input id="username" name="username" class="required" tabindex="1" style="padding: 0 10px;margin-left:10px;  width:200px; height: 36px; line-height: 20px; font-size: 16px;" placeholder="账号" accesskey="n" type="text" value="" autocomplete="false">
+              
+            </div>
+             <!--用户名_end-->
+             <!--密码_begin-->
+            <div style="margin-top:10px; margin-left:57px;">
+              <div>
+                  <div style="background:url(&#39;images/infoSchool/mm_icon.png&#39;);border-radius: 50%; float:left; height:36px; width:36px;"></div>
+                  
+                  <input id="password" name="password" class="required" tabindex="2" style="padding: 0 10px; margin-left:10px;  width:200px;  height: 36px; line-height: 20px; font-size: 16px;" placeholder="密码" accesskey="p" type="password" value="" autocomplete="off">
+              </div>
+            </div>   
+            <!--密码_end-->
+			
+			
+			
+            <!-- 验证码_begin -->
+            <div style="margin-top:10px; margin-left:57px;">
+                <img onclick="refresh();" id="vali" width="80" height="30" src="./captcha.htm" style="margin-left:40px;">
+                <!-- <span style="font-size:22px; margin:0px 10px;" >=</span> -->
+                <input class="required" type="text" tabindex="3" id="code" size="7" name="code" autocomplete="off" style="margin-left:5px; padding: 0px; height:30px; width:80px; line-height: 20px; font-size: 16px;">
+                <input type="hidden" name="browser" id="browser" value="Google">
+            </div>
+            <!-- 验证码_end -->
+
+		<div id="msg1" style="color:red; text-align:center; width:100%; height:10px; padding-top:5px; display: none;">
+			
+		</div>
+
+
+            <!--提交、重置按钮_begin-->
+            <div style="margin-top:20px;text-align: center;">  
+                <input type="hidden" name="lt" value="LT-5466-webgNffMWoBi5M4DeILy6eHnFFItZX">
+                <input type="hidden" name="execution" value="e1s1">
+                <input type="hidden" name="_eventId" value="submit">
+				<input type="hidden" name="token" id="token" value="7ae28902944498952fa7d5bc394afcb5">
+                <button class="btn btn-primary" id="auto" name="auto" accesskey="l" value="" tabindex="4" type="button" onclick="autoSubmit()" style="height: 34px;padding: 6px 20px;margin-right: 5%;">登录</button>
+                <button class="btn btn-warning" accesskey="c" value="" tabindex="5" type="reset" onclick="closeModal()" style="height: 34px;padding: 6px 20px;">取消</button> 
+            </div>
+			
+			<div onclick="findPass()" style=" margin-left:150px; margin-top:10px; cursor:pointer; font-size:14px; color:red;">
+	                                   忘记密码 
+	        </div>
+
+            <!--提交、重置按钮_end-->
+            <!--错误提示信息_begin-->
+            <div id="error" style="display: none;">
+                
+            </div>
+            <!--错误提示信息_end-->
+        </div>
+      </form>
+  </div>
+<!--登陆部分_end-->
+
+
+
+
+             
+        
+        <link href="./jquery-ui-1.10.3.custom.css" rel="stylesheet">
+		<script src="./jquery.min.js(1).下载"></script>
+		<script src="./jquery-ui.min.js.下载"></script>
+        
+        <script type="text/javascript" src="./cas.js.下载"></script>
+        	
+    
+
+
+
+</body></html>

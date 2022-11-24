@@ -1,0 +1,1401 @@
+/**
+ * Created by qxx on 2019/8/2.
+ */
+var _row=10;
+var _page=1;
+var _pageNumber = 1;  
+var _menudata;//菜单
+var nav_id=[];//导航栏一级菜单编号
+var navsecond_id=[];//导航栏二级菜单编号
+var navsecondp_id=[];//导航栏二级菜单父节点编号
+var navsecondn_id=[];//导航栏二级菜单名称
+var navthird_id=[];//导航栏三级菜单编号
+var navthirdp_id=[];//导航栏三级菜单父节点编号
+var navthirdn_id=[];//导航栏三级菜单名称
+var m_url=getQueryString("m");//编号
+var pm_url=getQueryString("pm");//父节点编号  
+var mo_url=getQueryString("mo");//文明在线
+var serch_NR=getQueryString("w");//父节点编号  
+var browser;
+var caid;//下标
+var burl;//当前页面的m_url
+var iddarr=[];  //父结点编号 
+
+//获取参数 
+function getQueryString(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+} 
+
+$(function(){    
+    //不同设备显示不同页面
+    browser = {
+        versions: function() { 
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return {
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1,
+                iPhone: u.indexOf("iPhone") > -1,
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+            };
+        } (),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    };
+    //手机
+    if(browser.versions.mobile){
+        commom_phone();//移动端
+        $('#phone').attr('href','css/index_phone.css');
+    }else{
+        commom();//pc初始样式      
+    }
+  
+    //主页轮播  
+    $('#myCarousel').carousel({
+        interval: 2000
+    });
+
+
+    $(window).resize(function(){
+        commom();
+    })
+    //搜索  
+    $("#search").click(function(event){
+    	$(".loginBox").css("display","none"); 
+    	$(".searchBox").toggle();  
+        event.stopPropagation();    
+    })
+    //登录   
+    $("#login").click(function(event){
+    	$(".searchBox").css("display","none");  
+    	$(".loginBox").toggle();    
+        event.stopPropagation();   
+    })
+    //关闭登录   
+    $(".closeLogin").click(function(event){
+    	$(".searchBox").hide();  
+    	$(".loginBox").hide();     
+
+        event.stopPropagation();   
+    })   
+    $(document).click(function(){
+    	//$(".searchBox").hide();  
+    	$(".loginBox").hide();        
+    });   
+})
+
+//pc端初始样式
+function commom(){
+
+	//页面滚动，校园新闻动态出现
+    $("body").scroll(function() {
+        if($('body').scrollTop()>$(window).height()/3) {
+            $('#center_top .new_square').addClass('animated fadeInDown');
+
+            $('#center_top .new_square').css('visibility','visible');
+        }
+        if($('body').scrollTop()>$(window).height()) {
+            $('#center_middle .school_left').addClass('animated rollIn');
+            $('#center_middle .school_right').addClass('animated zoomInUp');
+
+            $('#center_middle .school_left').css('visibility','visible');
+            $('#center_middle .school_right').css('visibility','visible');
+        }
+    });
+	
+    //=====================================主页=========================
+    //蓝色区域高度
+    $('#top').height($(window).height());
+
+    //logo外部链接高度
+    var topleftheight=$('#top').height()*0.13;
+    //logo外部链接
+    $('.top_left').height(topleftheight);
+    //logo
+    $('#top_href').height(topleftheight);
+    //登录外部链接
+    $('.top_right').height(topleftheight);
+    //登录查询
+    $('.top_righttop').height(topleftheight/1.7);
+    //外部链接
+    $('.top_rightbottom').height(topleftheight-$('.top_righttop').height());
+
+    //顶部链接宽度  
+    $('.top_rightbottom a').width($('.top_rightbottom').width()/8-1);
+    $('.top_rightbottom a').css('line-height',$('.top_rightbottom a').height()+'px'); 
+    $('.top_rightbottom .select').css('line-height',$('.top_rightbottom a').height()+'px');
+
+    //轮播图片宽高3:1
+    $('#top_banner #myCarousel').height($('#top_banner #myCarousel').width()/2.45);    
+
+    //一级菜单高度
+    $('#top_nav ul').height($('#top').height()-$('#top_banner #myCarousel').height()-70-topleftheight);
+    //一级菜单宽度
+    $('#top_nav li').width($('#top_nav').width()/7 -8.5);
+    $('#top_nav li').css('line-height',$('#top_nav ul').height()+'px');
+
+    //校园公告
+    $('#top_news .world').width($('#top_news').width()-62);    
+    ///////////////////浏览器高度过窄/////////////////////
+    if($(window).height()<883){
+        //蓝色区域高度 
+        $('#top').height(900);           
+        //一级菜单高度
+        $('#top_nav ul').height($('#top').height()-$('#top_banner #myCarousel').height()-70-topleftheight); 
+        //一级菜单宽度
+        $('#top_nav li').css('line-height',$('#top_nav ul').height()+'px');  
+    }  
+//    if($(window).width()<1367){  
+//        //蓝色区域高度  
+//        $('#top').height(650);     
+//        //一级菜单高度
+//        $('#top_nav ul').height($('#top').height()-$('#top_banner #myCarousel').height()-70-topleftheight); 
+//        //一级菜单宽度
+//        $('#top_nav li').css('line-height',$('#top_nav ul').height()+'px');    
+//    }  
+    //校园新闻图片高度设置   
+    //$('#center_top .new_square img').height($('#center_top .new_square img').width()/1.5);
+ 
+    $('#center_box .new_square img').height($('#center_box .new_square').eq(0).width()/1.5); 
+    //console.log($('.xykfr #center_box .new_square img').eq(0).width());   
+    $('#center_box .new_square .img-circle').height($('#center_box .new_square div:first-child').eq(0).width());  
+    //console.log($('.xykfr #center_box .new_square img').eq(0).height());      
+    //校园风采高度
+    $('#center_bottom').height($(window).height()-40);
+    //校园风采内容高度
+    $('#center_bottom .F_pic').height($('#center_bottom').height()-$('#center_bottom .news_title').outerHeight(true));
+    //校园风采图片高度
+    $('#center_bottom .pic_box').height($('#center_bottom .F_pic img').width()/1.5);
+ 
+    //校园风采内容居中
+    var padd=($('#center_bottom .F_pic').height()-$('#center_bottom .F_box').height())/2;
+    $('#center_bottom .F_box').css('padding',padd-5);
+    
+    //=========================二级页面=======================
+    //logo外部链接高度
+    var topleftheight1=$(window).height()*0.13;
+    //logo外部链接
+    $('#secondtop_href').height(topleftheight1);
+    $('.secondtop_left').height(topleftheight1);
+    //登录查询
+    $('.secondtop_righttop').height(topleftheight1/1.7);
+    //外部链接
+    $('.secondtop_rightbottom').height(topleftheight1-$('.secondtop_righttop').height());
+ 
+    //顶部链接宽度  
+    $('.secondtop_rightbottom a').width($('.secondtop_rightbottom').width()/8-1.5); 
+    $('.secondtop_rightbottom a').css('line-height',$('.secondtop_rightbottom a').height()+'px');  
+    $('.secondtop_rightbottom .select').css('line-height',$('.secondtop_rightbottom a').height()+'px');
+
+    //一级菜单  
+    $('#secondtop_nav .nav_one>li').width($('#secondtop_nav').width()/7 -8.5);        
+    $('#secondtop_nav .nav_one>li').height($('#secondtop_nav li').eq(0).width()/3);
+   
+    //一级菜单下面的箭头着色 
+    $('#secondtop_nav .nav_one>.active:after').css('border-color','#fff');
+
+
+    //二级菜单
+    $('#secondtop_nav .nav_two').css('margin-top',$('#secondtop_nav .nav_one li').height()+15);
+    $('#secondtop_nav .nav_two').width($('#secondtop_nav .nav_one').width());
+
+
+    $('.nav_one').height($('#secondtop_nav li').height()+30);
+    $('#secondtop_nav .nav_one>li').css('line-height',$('#secondtop_nav li').eq(0).width()/3+'px');
+    
+    //添加class显示三角和二级菜单   
+    $('.nav_one>li').mouseenter(function(event){    
+        $('#secondtop_nav').height($('#secondtop_nav li').height()+75);  
+         
+        if($(this).find('.nav_two').length>0){    
+            $('.nav_one').height($('#secondtop_nav li').height()+75);
+        }else{
+            $('.nav_one').height($('#secondtop_nav li').height()+30);
+        } 
+
+        for(var i=0 ;i<$('.nav_one>li').length;i++){
+            if($('.nav_one>li').eq(i).hasClass('active')){
+                $('.nav_one>li').eq(i).removeClass();
+            }
+        }
+        $(this).addClass('nav_one'+$(this).index()+' active');
+
+        //$(".nav_one>li:last-child").removeClass('nav_one5 active');//最后一个鼠标enter没有效果  
+        //console.log($(this).index())
+
+
+        for(var i=0 ;i<$('.nav_two').length;i++){
+            if($('.nav_two').eq(i).css('display')=='block'){
+                $('.nav_two').eq(i).css('display','none');
+            }
+        }
+
+        //var inum=$(this).index()*9+$(this).index()*$('.nav_one li').eq(0).width();
+        $('.active .nav_two').css('margin-left',-50);     
+        $('.nav_one6 .nav_two').css('margin-left',-100);     
+        $('.nav_one6 .nav_two .nav_three').css('margin-left',-300);     
+        $('.nav_one0 .nav_two').css('margin-left',"0");     
+        $('.active .nav_two').css('display','block');   
+        event.stopPropagation();   
+    }); 
+
+  
+    //三级菜单显示
+    $('#secondtop_nav .nav_three').width($('#secondtop_nav .nav_one').width());
+
+    $('.nav_two>li').mouseenter(function(event){         
+    	$('.nav_two>li a').css({'background':'transparent'});    
+        if($(this).find('.nav_three').length>0){
+            $('#secondtop_nav').height($('#secondtop_nav li').height()+135);
+
+            for(var i=0 ;i<$('.nav_three').length;i++){ 
+                if($('.nav_three').eq(i).css('display')=='block'){
+                    $('.nav_three').eq(i).css('display','none');
+                }
+            }
+            $(this).find('.nav_three').css('display','block');
+        }else{
+            $('#secondtop_nav').height($('#secondtop_nav li').height()+75);
+        }  
+        var a_color=$(this).parent().parent().css('background-color');  
+    	$(this).find("a").eq(0).css({'background':a_color}); 
+        event.stopPropagation();     
+    })   
+    //三级菜单hover背景颜色
+   /* $('.nav_three>li').mouseenter(function(){  
+    	$('.nav_three>li a').css({'background':'transparent'});  
+    	  
+    	var a_color=$(this).parent().parent().parent().parent().css('background-color');  
+ 
+    	$(this).find("a").eq(0).css({'background':a_color});     
+    }) */       
+ 
+    //列表内容图片宽高比  
+    $('#center_box .new_square img').height($('#center_box .new_square').width()/1.5);
+    $('#center_box .new_square .img-circle').height($('#center_box .new_square div:first-child').eq(0).width());  
+}
+ 
+
+//移动端基本样式
+
+function commom_phone(){
+    //蓝色区域高度 
+    $('#top').css("height","auto");  
+    //校园公告
+    $('#top_news .world').width($('#top_news').width()-51);
+    //轮播图片宽高3:1
+    $('#top_banner #myCarousel').height($('#top_banner #myCarousel').width()/2.7);
+    //校园新闻图片宽高比
+    $('.tab-content > .active img').height($('.tab-content > .active img').width()/1.5)
+    //校园风采方框宽高比
+    $('#center_bottom .pic_box').height($('#center_bottom .F_pic img').width()/1.5);
+    //列表内容图片宽高比
+    $('#center_box .new_square img').height($('#center_box .new_square img').width()/0.8);
+    //图片导航
+	$("#secondcenter #center_box .new_square.navImg img").height($('#secondcenter #center_box .new_square.navImg').width()/2/1.8);  
+	var sssss = $('#center_box .new_square.btnImg div:first-child').width()
+    $('#center_box .new_square.btnImg .img-circle').height(sssss);         
+}
+         
+
+//主页pc导航栏
+function pvnav(){
+    $.ajax({
+        url: "Svl_MenuManage?active=getList",//json文件位置
+        type: "GET",//请求方式为get
+        dataType: "json", //返回数据格式为json
+        success: function(data) {//请求成功完成后要执行的方法
+            //each循环 使用$.each方法遍历返回的数据date
+        	//console.log(data);  
+        	$('#top_nav ul').empty();
+        	_menudata=data; 
+            var arr=[];var arr2=[];
+            var arr1=[];var arr3=[];var arr4=[];
+            
+            $.each(data, function(i, item) {  
+	             if(item.父结点编号 == 0 && item.PC显示 ==1){
+		              arr.push(item.编号);
+		              arr2.push(item.菜单名称)
+		              //var str='<a href="newslist.jsp?pm='+item.编号+'&m="><li>'+item.菜单名称+'</li></a>';
+	             }      
+            })
+            for(var j=0;j<arr.length;j++){
+                $.each(data, function(i, item) { 
+	                 if(arr[j] ==item.父结点编号){       
+		                  arr1.push(item.编号)               
+		                  j++;              
+	                 } 
+                })
+            } 
+            arr1.push(0); 
+            for(var j=0;j<arr.length;j++){
+                $.each(data, function(i, item) { 
+	                 if(arr1[j] ==item.父结点编号){       
+		                  arr3.push(item)               
+		                  j++;              
+	                 } 
+                })
+            }
+            for(var j=0;j<arr.length;j++){   
+            	var str;  
+                str='<a id="'+arr1[j]+'" href="newslist.jsp?m='+arr1[j]+'&pm='+arr[j]+'"><li>'+arr2[j]+'</li></a>';
+                   
+	             $('#top_nav ul').append(str) 
+	             
+            } 
+//            如果有第三层菜单默认选择第三层第一个
+            $.each(arr3, function(i, item) { 
+            	for(var j=0;j<$('#top_nav ul a').length;j++){   
+	            	if($('#top_nav ul a').eq(j).attr("id") == item.父结点编号){  
+	            		$('#top_nav ul a').eq(j).attr('href','newslist.jsp?m='+item.编号+'&pm='+item.父结点编号+'');
+	            	}  
+            	} 
+           }) 
+        	//ce_nav(m_url,_row,_page);//列表信息     
+        	//样式重置   
+        	commom();     
+        }
+
+    })   
+} 
+//------------------------------导航------------------------------//
+function phone_nav(){
+    $.ajax({ 
+        url: "Svl_MenuManage?active=getList",//json文件位置
+        type: "GET",//请求方式为get
+        dataType: "json", //返回数据格式为json
+        async: false,
+        success: function(data) {//请求成功完成后要执行的方法
+            //each循环 使用$.each方法遍历返回的数据date
+            _menudata = data;
+            //                    一级菜单   
+            //首页
+        	var index = '<li><a href="index.jsp">首页</a></li>';
+            $('.navbar-nav').append(index);     
+            $.each(data, function(i, item) {  
+                if(item.移动显示==1 && item.父结点编号==0){ 
+                    var str='<li id="'+item.编号+'" style="border-top: 1px #e5e5e5 solid;"><a href="javascript:void(0)" class="dropdown-toggle"  data-toggle="dropdown" data-hover="dropdown">'+item.菜单名称+'</a><b class="caret1" style="display:none"></b>' +
+                            '<ul class="dropdown-menu nav_one" style="height:auto!important"></ul>' +
+                            '</li>';   
+                    $('.navbar-nav').append(str); 
+                    nav_id.push(item.编号);//一级菜单编号  
+                }  
+                if(item.移动显示==1 && item.父结点编号!=0){
+                    navsecond_id.push(item.编号);//二、三级菜单父节点编号
+                    navsecondp_id.push(item.父结点编号);//二、三级菜单父节点编号
+                    navsecondn_id.push(item.菜单名称);//二、三级菜单父节点编号
+                }
+  
+                $('.navbar-nav li:first-child').css("border-top","none"); //一级菜单添加分割线
+            });   
+
+
+//            二级菜单
+            $.each(navsecondp_id, function(i, item) { 
+                var nav_f=navsecondp_id[i];
+                var num=i;
+                var str='';   
+//                console.log(nav_f); 
+                $.each(nav_id, function(j, item) {
+                    if(nav_f == nav_id[j]) {
+                          str = '<li id="' + navsecond_id[num] + '"><a href="javascript:void(0)">' + navsecondn_id[num] + '</a></li><li class="divider"></li>';
+                          //判断二级菜单是否有三级
+                          if($.inArray(navsecond_id[num], navsecondp_id)!= -1){    
+                              str = '<li id="' + navsecond_id[num] + '"><a href="javascript:void(0)">' + navsecondn_id[num] + '<b class="caret"></b></a></li><li class="divider"></li>';
+                          }else{
+                              str='<li id="'+navsecond_id[num]+'"><a href="newslist.jsp?m='+navsecond_id[num]+'&pm='+nav_id[j]+'">'+navsecondn_id[num]+'</a></li><li class="divider"></li>';
+                          }
+                          $('.nav_one').eq(j).append(str);
+
+                      }
+              });   
+                $('.nav_one li').parent().parent().find("b").css('display',"block");       
+                //$('.nav_one li').parent().parent().find("caret").css({'display':"block","position": "absolute","top": "15px","right": "15px"});   
+                $.each(navsecond_id, function(j, item) { 
+                    if(nav_f == navsecond_id[j]){
+
+                        $('#'+nav_f).addClass('dropdown-submenu'); 
+                        navthird_id.push(navsecond_id[num]);
+                        navthirdp_id.push(navsecondp_id[num]);
+                        navthirdn_id.push(navsecondn_id[num]);
+                    }
+                });
+            });
+
+
+//            三级菜单
+            var str1='<ul class="dropdown-menu nav_two" style="display: none"></ul>';
+            for(var i= 0;i<$('.dropdown-submenu').length;i++){
+                $('.dropdown-submenu').eq(i).append(str1);
+            }
+
+
+            for(var i= 0;i<navthird_id.length;i++){
+                var str='<li id="'+navthird_id[i]+'"><a href="newslist.jsp?m='+navthird_id[i]+'&pm='+navthirdp_id[i]+'">'+navthirdn_id[i]+'</a></li><li class="divider"></li>';
+                $('#'+navthirdp_id[i]+' .nav_two').append(str);
+            }
+            $('.dropdown-submenu a').click(function(){
+                $(this).next().toggle();
+                return false;
+            })
+            $('.dropdown-submenu .dropdown-menu a').click(function(){
+                $(this).parent().parent(".dropdown-menu").css('display','none');
+                $('#example-navbar-collapse').removeClass('in')
+            })
+            $('.nav_two a').css("padding-left","10%"); 
+            $('.nav_two a').click(function(){
+            	window.open($(this).attr('href'),"_self");      
+            }) 
+          //面包屑导航
+	    	$('#secondcenter .breadcrumb').empty();
+	    	var pname;//父菜单名
+    		var mname;//菜单名
+    		var numname;//三层菜单的一层编号
+    		var arry =[];//一层菜单内容
+    		var lastname;//一层菜单名
+	    	$.each(data, function(i, item) {
+	    		if(m_url==item.编号){
+		    		mname = item.菜单名称
+	    		} 
+	    		if(m_url==317){
+	    			pname=''  
+	    		} 
+	    		if(m_url==0){
+	    			mname='' 
+	    		} 
+	    		if(pm_url==0){
+	    			pname='' 
+	    		}   
+	    		if(pm_url==item.编号){  
+	    			pname = item.菜单名称; 
+	    			numname = item.父结点编号;   
+	    		}   
+	    		//	搜索界面
+	    		if(pm_url == null ||m_url == null){
+	    			pname='搜索结果'
+	    			mname=''  
+	    		}   
+	    		//console.log(item.父结点编号)
+	    		if(item.父结点编号 == '0'){
+	    			arry.push(item); 
+	    		}
+	    	})
+	    	$.each(arry, function(i, item) {
+	    		if(numname == item.编号){
+	    			lastname = item.菜单名称;
+	    		} 
+	    	})
+	    	var str_li;
+	    	if(lastname == undefined || lastname == ''){
+	    		str_li='<li><a href="index.jsp">首页</a></li><li><a>'+pname+'</a></li><li class="active">'+mname+'</li>'
+	    	}else{   
+	    		str_li='<li><a href="index.jsp">首页</a></li><li><a>'+(lastname||'&nbsp;&nbsp;')+'</a></li><li><a>'+pname+'</a></li><li class="active">'+mname+'</li>'
+		    } 
+    		$('#secondcenter .breadcrumb').append(str_li)      
+    		if(mo_url == '2'){
+	    		ce_nav2(m_url,_row,_page);  
+	    	}else{
+		       ce_nav(m_url,_row,_page);  
+	    	}   
+            commom_phone();    
+        }     
+    })    
+}  
+//------------------------------校园公告------------------------------//
+function top_news(){
+    $.ajax({ 
+        url: "Svl_NewsManage?active=getTZGG",//json文件位置
+        type: "GET",//请求方式为get   
+        dataType: "json", //返回数据格式为json
+        success: function(data) {//请求成功完成后要执行的方法
+            //each循环 使用$.each方法遍历返回的数据date
+        	//console.log(data);   
+        	$('#top_news .world_box').empty();    
+        	$.each(data, function(i, item) {         
+        		var str;
+         	    if(item.跳转 == undefined || item.跳转 == ''){ 
+         	    	str = '<a target="_blank" href="'+item.静态地址+'?m='+item.新闻栏目+'&pm=268"><span class="left"><img src="images/li_square.png" alt=""/> '+item.新闻标题+'</span><span class="right">'+item.发布日期+'</span></a>';
+         	    }else{
+         	    	//str = '<a target="_blank" href="https://'+item.跳转+'"><span class="left"><img src="images/li_square.png" alt=""/> '+item.新闻标题+'</span><span class="right">'+item.发布日期+'</span></a>';
+         	    	str = '<a target="_blank" href="'+item.跳转+'"><span class="left"><img src="images/li_square.png" alt=""/> '+item.新闻标题+'</span><span class="right">'+item.发布日期+'</span></a>';
+         	    }
+        		
+        		$('#top_news .world_box').append(str)      
+        	}) 
+            //校园公告无缝滚动
+            $('.world_box').liMarquee({
+                drag: false,
+                hoverstop: true
+            });   
+        } 
+    }) 
+} 
+
+//------------------------------主页校园新闻------------------------------//
+function indexnews(){
+    $.ajax({
+        url: "Svl_NewsManage?active=getList&XWLM=268",//json文件位置
+        type: "GET",//请求方式为get
+        dataType: "json", //返回数据格式为json   
+        success: function(data) {//请求成功完成后要执行的方法
+            //each循环 使用$.each方法遍历返回的数据date
+        	/*console.log(data);  */
+        	  
+        	$('#center_top .container').empty();   
+        	var news_title = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 news_title"><a href="newslist.jsp?m=270&pm=268"><h3><img src="images/news_icon.png" alt="校园新闻"/>&nbsp;校园新闻<small>CAMPUS NEWS</small></h3></a></div>'     
+        	/*var news_title = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 news_title"><a href="newslist.jsp?m=270&pm=268"><img src="images/news_title.png" alt="校园新闻"/></a></div>' */  
+                	
+        	$('#center_top .container').append(news_title);   
+        	var newsNum = data.rows.length;
+          	var newsMaxNum = 4;//新闻最多显示的条数  
+          	if (newsNum<=0){
+          		return;
+          	} 
+            if(newsNum > 0 && newsNum <= newsMaxNum){
+            	newsMaxNum = newsNum;
+            }
+			/*
+			var xx = 0;
+			for (var i=0; ; i++) {   
+
+        		if(data.rows[i].新闻栏目 == '272'){
+        			continue;
+        		}
+        		var str;
+         	    if(data.rows[i].跳转 == undefined || data.rows[i].跳转 == ''){ 
+         	    	str = '<div class="new_square"><a target="_blank" href="'+data.rows[i].静态地址+'?m=270&pm=268"><img src="'+data.rows[i].封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+data.rows[i].新闻标题+'</h4><span>'+(data.rows[i].发布日期||'&nbsp;&nbsp;')+'</span></a></div>'  
+         	    }else{
+         	    	str = '<div class="new_square"><a target="_blank" href="https://'+data.rows[i].跳转+'"><img src="'+data.rows[i].封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+data.rows[i].新闻标题+'</h4><span>'+(data.rows[i].发布日期||'&nbsp;&nbsp;')+'</span></a></div>'  
+         	    }
+         	    xx++;
+	        	$('#center_top .container').append(str);  
+	        	if(xx == newsMaxNum){
+	        		break;
+	        	}
+        	}  */
+			
+        	for (var i=0; i<newsMaxNum; i++) {    
+        		var str;
+         	    if(data.rows[i].跳转 == undefined || data.rows[i].跳转 == ''){ 
+         	    	str = '<div class="new_square"><a target="_blank" href="'+data.rows[i].静态地址+'?m=270&pm=268"><img src="'+data.rows[i].封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4 style="white-space: normal!important;">'+data.rows[i].新闻标题+'</h4><span>'+(data.rows[i].发布日期||'&nbsp;&nbsp;')+'</span></a></div>'  
+         	    }else{
+         	    	//str = '<div class="new_square"><a target="_blank" href="https://'+data.rows[i].跳转+'"><img src="'+data.rows[i].封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+data.rows[i].新闻标题+'</h4><span>'+(data.rows[i].发布日期||'&nbsp;&nbsp;')+'</span></a></div>'  
+         	    	str = '<div class="new_square"><a target="_blank" href="'+data.rows[i].跳转+'"><img src="'+data.rows[i].封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+data.rows[i].新闻标题+'</h4><span>'+(data.rows[i].发布日期||'&nbsp;&nbsp;')+'</span></a></div>'  
+         	    }
+       		  
+	        	$('#center_top .container').append(str);  
+        	} 
+            //校园新闻图片高度设置  
+            //$('#center_top .new_square img').height($('#center_top .new_square img').width()/1.5); 
+
+            $('#center_top .new_square img').height($('#center_top .new_square').eq(0).width()/1.5);    
+        }
+
+    })  
+}
+//------------------------------轮播图------------------------------//
+//banner轮播图片  
+function append_banner(){
+  $.ajax({ 
+      url: "Svl_Banner?active=getList",//json文件位置
+      type: "GET",//请求方式为get         
+      dataType: "json", //返回数据格式为json
+      success: function(data) {//请求成功完成后要执行的方法  
+          //each循环 使用$.each方法遍历返回的数据date
+          //console.log(data);   
+      	$.each(data, function(i, item) {
+              var str = '<a href="'+item.链接+'"><img src="' + item.图片 + '" alt="slide"></a>';   
+              var appeend_div=$('<div class="item"></div>').append(str);
+              $('#top_banner .carousel-inner').append(appeend_div);  
+	        });   
+	        $('#top_banner .carousel-inner .item').eq(0).addClass("active");
+	        
+	        $('#top_banner #myCarousel').carousel({ 
+	            interval: 5000  
+	        })       
+      }
+  })  
+}
+
+//------------------------------校园风采------------------------------//
+function FC_img(){
+    $.ajax({
+        url: "Svl_NewsManage?active=getXYFC",//json文件位置
+        type: "GET",//请求方式为get   
+        dataType: "json", //返回数据格式为json
+        success: function(data) {//请求成功完成后要执行的方法
+            //each循环 使用$.each方法遍历返回的数据date
+        	//console.log(data);       
+        	$('.F_box .pichover,.F_box .titlehover').empty();
+        	//var imgPic = ["F_1.jpg","F_2.jpg","F_3.jpg","F_4.jpg","F_5.jpg","F_6.jpg","F_7.jpg","F_8.jpg"]
+        	//var titelPic = ["晨中书声","国师仰止","动感天地","巍巍学府","中山兰诲","翠龙古殿","五四钟声","沪滨名门"]  
+        	$.each(data.rows, function(i, item) {
+        		var str = '<a href="'+item.静态地址+'?m=317&pm=267"><img src="'+item.封面图片+'" alt=""/></a>';
+        		$('.F_box .pichover').eq(i).append(str);     
+        		var str1 = '<span>'+item.新闻标题+'</span>';
+        		$('.F_box .titlehover').eq(i).append(str1);   
+  	        });    
+        }
+    })  
+}
+
+//------------------------------友情链接------------------------------//
+function yqLink(){
+  $.ajax({
+      url: "Svl_Links?active=getList",//json文件位置
+      type: "GET",//请求方式为get   
+      dataType: "json", //返回数据格式为json
+      success: function(data) {//请求成功完成后要执行的方法
+          //each循环 使用$.each方法遍历返回的数据date
+      	//console.log(data);    
+      	$('footer .fist').empty();
+      	$('footer .fist').append("复旦基础教育联盟："); 
+      	$.each(data, function(i, item) {     
+      		var str = '<a href="'+item.链接地址+'">'+item.链接名称+'</a>'; 
+
+	        	$('footer .fist').append(str);
+      	})   
+      }
+  }) 
+} 
+//------------------------------newslist.jsp------------------------------//
+//------------------------------轮播图第二页------------------------------//
+//banner轮播图片  
+function append_banner2(){   
+$.ajax({ 
+    url: "Svl_Banner?active=getList",//json文件位置
+    type: "GET",//请求方式为get         
+    dataType: "json", //返回数据格式为json
+    success: function(data) {//请求成功完成后要执行的方法  
+        //each循环 使用$.each方法遍历返回的数据date
+        //console.log(data);   
+    	$.each(data, function(i, item) {
+            var str = '<a href="'+item.链接+'"><img src="' + item.图片 + '" alt="slide"></a>';   
+            var appeend_div=$('<div class="item"></div>').append(str);
+            $('#secondtop_banner .carousel-inner').append(appeend_div);  
+	        });   
+	        $('#secondtop_banner .carousel-inner .item').eq(0).addClass("active");
+	        
+	        $('#secondtop_banner #myCarousel').carousel({ 
+	            interval: 5000  
+	        })       
+    }
+})  
+} 
+
+//菜单栏六个
+function secondtop_banner(){
+	$.ajax({ 
+	    url: "Svl_MenuManage?active=getList",//json文件位置
+	    type: "GET",//请求方式为get         
+	    dataType: "json", //返回数据格式为json       
+	    success: function(data) {//请求成功完成后要执行的方法  
+	        //each循环 使用$.each方法遍历返回的数据date
+            _menudata = data;
+	        var A_arr=[];//一级菜单编号
+	        var B_arr=[];//二级菜单编号
+	        var Bn_arr=[];//二级菜单名称
+	        var Bp_arr=[];//二级菜单编号父
+	        var C_arr=[];//三级菜单编号
+	        var D_arr=[];//其余菜单编号
+	        var E_arr=[];     
+	        //console.log("secondtop_banner"); 
+	        $('.nav_one').empty(); 
+	    	$.each(data, function(i, item) {
+	    		if(item.父结点编号==0 && item.PC显示==1){
+	    			A_arr.push(item.编号);
+	    			var str='<li id="'+item.编号+'"><a href="javascript:void(0);">'+item.菜单名称+'</a></li>';  
+		    		$('.nav_one').append(str);     
+	    		}else if(item.PC显示==1 && item.父结点编号 !=0){
+	    			Bp_arr.push(item.父结点编号);
+	    			B_arr.push(item.编号);
+	    			Bn_arr.push(item.菜单名称);  
+	    		}   
+	    	})  
+	    	//mouseenter父节点相同下沉 
+	    	/*$(".nav_one #"+pm_url+"").addClass("active")  
+	    	console.log(pm_url);  */
+	    	
+	    	//	    	判断是否有二级菜单 
+	    	for(var i=0;i<Bp_arr.length;i++){
+	    		for(var j=0;j<A_arr.length;j++){
+		    		if(Bp_arr[i] == A_arr[j]){    
+		    			D_arr.push(A_arr[j]); 
+		    		}
+	    		}
+	    	} 
+//	    	判断是否有三级菜单 
+	    	for(var i=0;i<Bp_arr.length;i++){
+	    		for(var j=0;j<B_arr.length;j++){
+		    		if(Bp_arr[i] == B_arr[j]){    
+		    			E_arr.push(B_arr[j]);   
+		    		}  
+	    		}
+	    	} 
+	    	
+//	    	二级菜单
+	    	D_arr=uniQueue(D_arr)
+	    	$.each(D_arr, function(i, item) {  
+	    		var str='<ul class="nav_two"></ul>'  
+	    		$('#'+D_arr[i]).append(str);     
+	    	}) 
+	    	
+
+	    	$.each(Bp_arr, function(i, item) {
+	    		var str='<li id='+B_arr[i]+'><a href="newslist.jsp?m='+B_arr[i]+'&pm='+Bp_arr[i]+'">'+Bn_arr[i]+'</a></li>'
+    			$('#'+Bp_arr[i]+' .nav_two').append(str);       
+	    	})   
+	    	   
+	    	
+	    	//	    	三级菜单   
+	    	E_arr=uniQueue(E_arr)
+	    	$.each(E_arr, function(i, item) {  
+	    		var str='<ul class="nav_three"></ul>'
+	    		$('#'+E_arr[i]).append(str);      
+	    	})    
+        	
+	    	$.each(Bp_arr, function(i, item) {
+	    		for(var j=0;j<E_arr.length;j++){
+	    			if(Bp_arr[i]==E_arr[j]){
+		    			var str='<li id='+B_arr[i]+'><a href="newslist.jsp?m='+B_arr[i]+'&pm='+Bp_arr[i]+'">'+Bn_arr[i]+'</a></li>'
+		    			$('#'+E_arr[j]+' .nav_three').append(str);      
+	    			}     
+	    		} 
+	    	})         
+	    	$(".nav_three>li").parent().parent().find("a").css('position',"relative");
+	    	 $(".nav_three>li").parent().parent().find("a").addClass('after_sj');
+	    	 $(".nav_three li a").removeClass('after_sj');    
+	    	 $(".after_sj").attr('href','javascript:void(0)');     
+	    	//鼠标hover事件         
+	    	/*$(".nav_three li").mouseenter(function(){  
+	    		var a_color=$(this).parent().parent().parent().parent().css('background-color'); 
+	        	$(this).find("a").css({'background':a_color});   
+	        })    
+	        $(".nav_three li").mouseleave(function(){
+        		$(this).find("a").css({'background':"transparent"});    
+        	}) */    
+        	 $('.topnav .container').mouseleave(function(event){ 
+        	    $(".nav_one>li").removeClass('nav_one0 nav_one1 nav_one2 nav_one3 nav_one4 nav_one5 nav_one6 active');   
+		        $('#secondtop_nav').height($('#secondtop_nav li').height()+30);  
+		        $('.nav_one').height($('#secondtop_nav li').height());    
+		    	$(".nav_two,.nav_three").css({'display':"none"});   
+		    	$('.nav_two>li a').css({'background':'transparent'});    
+		        event.stopPropagation();  
+		    });        
+        	//面包屑导航
+	    	$('#secondcenter .breadcrumb').empty();
+	    	var pname;//父菜单名
+    		var mname;//菜单名
+    		var numname;//三层菜单的一层编号
+    		var arry =[];//一层菜单内容
+    		var lastname;//一层菜单名
+	    	$.each(data, function(i, item) {
+	    		if(m_url==item.编号){
+		    		mname = item.菜单名称
+	    		} 
+	    		if(m_url==317){
+	    			pname=''  
+	    		} 
+	    		if(m_url==0){
+	    			mname='' 
+	    		} 
+	    		if(pm_url==0){
+	    			pname='' 
+	    		}   
+	    		if(pm_url==item.编号){  
+	    			pname = item.菜单名称; 
+	    			numname = item.父结点编号;   
+	    		}   
+	    		//	搜索界面
+	    		if(pm_url == null ||m_url == null){
+	    			pname='搜索结果'
+	    			mname=''  
+	    		}   
+	    		//console.log(item.父结点编号)
+	    		if(item.父结点编号 == '0'){
+	    			arry.push(item); 
+	    		}
+	    	})
+	    	$.each(arry, function(i, item) {
+	    		if(numname == item.编号){
+	    			lastname = item.菜单名称;
+	    		}
+	    	})
+	    	var str_li;
+	    	if(lastname == undefined || lastname == ''){
+	    		str_li='<li><a href="index.jsp">首页</a></li><li><a href="newslist.jsp?m='+m_url+'&pm='+pm_url+'">'+pname+'</a></li><li class="active">'+mname+'</li>'
+	    	}else{   
+	    		str_li='<li><a href="index.jsp">首页</a></li><li><a href="newslist.jsp?m='+m_url+'&pm='+pm_url+'">'+(lastname||'&nbsp;&nbsp;')+'</a></li><li><a href="newslist.jsp?m='+m_url+'&pm='+pm_url+'">'+pname+'</a></li><li class="active">'+mname+'</li>'
+		    } 
+    		$('#secondcenter .breadcrumb').append(str_li); 
+    		if(mo_url == '2'){
+	    		ce_nav2(m_url,_row,_page);  
+	    	}else{
+		        ce_nav(m_url,_row,_page);   
+	    	}    
+	    	//样式重置    
+        	commom(); 
+	    }
+	})
+}
+
+//判断显示是图文还是列表
+function getMenuShowTypebyID(ID){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].编号==ID){
+			return _menudata[i].显示类型
+		}
+	}
+	return undefined;
+}   
+//判断是否有二级菜单
+function hasChild(id){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].父结点编号 == id){
+			return 1
+		}
+	}
+	return 0 
+}
+//获父节点
+function getParent(id){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].编号 == id){
+			return _menudata[i].父结点编号
+		}
+	}
+	return '' 
+}
+//获取子节点
+function getChilden(id){
+	var data=[];
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].父结点编号 == id){
+			data.push(_menudata[i]);  
+		}
+	}
+	return data;
+}
+function newslist(id){ 
+	 $.ajax({ 
+	     url: "Svl_MenuManage?active=getList",//json文件位置
+	     type: "GET",//请求方式为get         
+	     dataType: "json", //返回数据格式为json       
+	     success: function(data){
+	     // console.log(data)
+	      $('.newslist_li').css('display','block');    
+	      $('.newslist_li').empty();  
+	      $.each(data, function(i,item) {      
+		       if(item.父结点编号==id){    
+		        var str='<li id="'+item.编号+'"><a href="newslist.jsp?m='+item.编号+'&pm='+id+'">'+item.菜单名称+'</a></li>'  
+		        $('.newslist_li').append(str)    
+		       }
+	      });
+	      
+	      $('#'+m_url).addClass('active')   
+	     }   
+	 })
+}  
+///////////////////////////////////图文列表展示+图文导航+文字按钮///////////////////////////////////
+function ce_nav(id,num,page){
+   _ce_nav_id = id;
+   _ce_nav_num = num;  
+   _pageNumber = page;
+   var str="";
+   if(num==3){  
+       tm_url=id;
+   }else{
+       tm_url=''; 
+   }   
+   var menushowtype; 
+   //新闻栏目的显示类型    
+   for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].编号==id){
+			menushowtype=_menudata[i].显示类型
+		}  
+	}    
+ 
+   if (menushowtype && menushowtype==1){ //以封面形式显示
+	 //手机端显示   
+	   if(browser.versions.mobile){ 
+		   _row = 3;  
+       }else{
+    	   _row = 8;  
+       }   
+		// TODO 这里写封面形式显示的新闻列表,暂时以列表形式表现 
+	   	$.ajax({
+	   		url: "Svl_NewsManage?active=getList&XWLM="+id+"&rows="+_row+"&page="+page,//json文件位置
+	   		type: "GET",//请求方式为get
+	           dataType: "json", //返回数据格式为json
+	           success: function(data) {//请求成功完成后要执行的方法
+	           	$('#center_box,#fenye').empty();   
+	            /*  分页 */ 
+	           	var feny='<div id="pagination" class="pagination"></div>';
+                $('#fenye').append(feny);       
+                var pageNum = Math.ceil(data.total/_row);  
+                new Page({   
+                    id: 'pagination',
+                    pageTotal: pageNum, //必填,总页数      
+                    pageAmount: _row,  //每页多少条  
+                    dataTotal: data.total, //总共多少条数据   
+                    curPage:page, //初始页码,不填默认为1    
+                    pageSize: 5, //分页个数,不填默认为5     
+                    showPageTotalFlag:true, //是否显示数据统计,不填默认不显示
+                    showSkipInputFlag:true, //是否支持跳转,不填默认不显示
+                    getPage: function (page) {
+                        //获取当前页数
+                    	ce_nav(id,_row,page)    
+                    }
+                })   
+	        		$.each(data.rows, function(i, item) { 
+		            	   var str;
+		            	   if(item.跳转 == undefined || item.跳转 == ''){ 
+		            		   src='<div class="new_square"><a href="'+item.静态地址+'?m='+m_url+'&pm='+pm_url+'" target="_blank"><img src="'+item.封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+item.新闻标题+'</h4><span>'+(item.发布日期||'&nbsp;&nbsp;')+'</span></a></div>';
+		            	   }else{
+		            		   //src='<div class="new_square"><a href="https://'+item.跳转+'" target="_blank"><img src="'+item.封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+item.新闻标题+'</h4><span>'+(item.发布日期||'&nbsp;&nbsp;')+'</span></a></div>';
+		            		   src='<div class="new_square"><a href="'+item.跳转+'" target="_blank"><img src="'+item.封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+item.新闻标题+'</h4><span>'+(item.发布日期||'&nbsp;&nbsp;')+'</span></a></div>';
+			               }
+   
+	                	$('#center_box').append(src);         
+	        		}); 
+	                //列表内容图片宽高比
+	                $('#center_box .new_square img').height($('#center_box .new_square').eq(0).width()/1.5);    
+	               // console.log($('#center_box .new_square img').height());          
+	           }       
+	       })  
+	}else if (menushowtype && menushowtype==2){  //直接显示新闻
+	   	$.ajax({
+	           url: "Svl_NewsManage?active=getList&XWLM="+id+"&rows=1&page=1",
+	           type: "GET",//请求方式为get
+	           dataType: "json", //返回数据格式为json
+	           success: function(data) {
+	               if(data.rows[0].跳转 == undefined || data.rows[0].跳转 == ''){ 
+		           		location.href = data.rows[0].静态地址2+'?m='+m_url+'&pm='+pm_url+'&mo=2';
+	        	   }else{
+	        		   //location.href = 'https://'+data.rows[0].跳转; 
+	        		   location.href = data.rows[0].跳转; 
+	        	   }
+	           } 
+	   	});     
+	}else if(menushowtype && menushowtype==3){//图文导航
+		var child = getChilden(m_url);
+		var srcNav;//图文导航
+		console.log(child);   
+		$.each(child, function(i, item) {   
+			srcNav ='<div class="new_square navImg"><a id="a'+item.编号+'" name="'+item.父结点编号+'" href="newslist.jsp?m='+item.编号+'&pm='+item.父结点编号+'"><img src="'+item.封面图片+'" alt="" onerror="this.src=\'images/newPic.jpg\'"/><h4>'+item.菜单名称+'</h4></a></div>';
+			$('#secondcenter #center_box').append(srcNav);   
+		}) 
+		//手机 
+        if(browser.versions.mobile){ 
+        	$("#secondcenter #center_box .new_square.navImg").css({"width":"50%","display":"inline-block","float":"left","padding":"10px"}); 
+		}    
+	}else if(menushowtype && menushowtype==4){//文字按钮导 
+		var child = getChilden(m_url);  
+		var btnNav;//文字按钮导航
+		$.each(child, function(i, item) {   
+			btnNav ='<div class="new_square btnImg" style="padding:15px 0"><a id="a'+item.编号+'" name="'+item.父结点编号+'" href="newslist.jsp?m='+item.编号+'&pm='+item.父结点编号+'">'+
+	        	'<div style=" width: 30%; display: inline-block;float: left;"><img src="'+item.封面图片+'" alt="" class="img-circle" onerror="this.src=\'images/newPic.jpg\'"/></div>'+
+ 	        	'<div style="width: 70%;display: inline-block;padding: 8% 0 8% 15px;"><h4 style="text-align: left;">'+item.菜单名称+'</h4></div></a></div>';
+          	$('#secondcenter #center_box').append(btnNav);     
+		})     
+		//手机 
+        if(browser.versions.mobile){   
+        	$('#secondcenter #center_box .new_square.btnImg div:first-child').css("width","20%");   
+        	$('#secondcenter #center_box .new_square.btnImg div:last-child').css({"width":"80%","padding":"3% 0px 3% 15px"});   
+        	//console.log($('#center_box .new_square.btnImg div:first-child').width());
+		}    
+	} else{   //列表形式   
+		$.ajax({  
+	           url: "Svl_NewsManage?active=getList&XWLM="+id+"&rows=10&page="+page,//json文件位置
+	           type: "GET",//请求方式为get 
+	           dataType: "json", //返回数据格式为json 
+	           success: function(data) {//请求成功完成后要执行的方法
+	               //$('#'+id+' .body_passage ul').empty();
+	        	   //console.log(data);  
+	               $('#center_box,#fenye').empty();    
+	               var str1='<ul class="list_news"></ul>';  
+	               $('#center_box').append(str1);  
+            	  //console.log(data.rows.跳转);  
+	               $.each(data.rows, function(i,item) {   
+	            	   var str;
+	            	   if(item.跳转 == undefined || item.跳转 == ''){ 
+	            		   str='<a target="_blank" href="'+item.静态地址+'?m='+m_url+'&pm='+pm_url+'"><li><span><img src="images/sq_active.png" alt="·"/>&nbsp;&nbsp;'+item.新闻标题+'</span><span class="fl_right">'+(item.发布日期||'&nbsp;&nbsp;')+'</span></li></a>';
+			           }else{  
+			        	   //str='<a target="_blank" href="https://'+item.跳转+'" target="_blank"><li><span><img src="images/sq_active.png" alt="·"/>&nbsp;&nbsp;'+item.新闻标题+'</span><span class="fl_right">'+(item.发布日期||'&nbsp;&nbsp;')+'</span></li></a>';
+			        	   str='<a target="_blank" href="'+item.跳转+'" target="_blank"><li><span><img src="images/sq_active.png" alt="·"/>&nbsp;&nbsp;'+item.新闻标题+'</span><span class="fl_right">'+(item.发布日期||'&nbsp;&nbsp;')+'</span></li></a>';
+				       }
+	            	   $('#center_box ul').append(str);        
+	               });    
+	               /*  分页 */ 
+		           	var feny='<div id="pagination" class="pagination"></div>';
+	                $('#fenye').append(feny);       
+	                var pageNum = Math.ceil(data.total/10);    
+		               //console.log(pageNum);  
+	                new Page({   
+	                    id: 'pagination',
+	                    pageTotal: pageNum, //必填,总页数      
+	                    pageAmount: 10,  //每页多少条  
+	                    dataTotal: data.total, //总共多少条数据   
+	                    curPage:page, //初始页码,不填默认为1    
+	                    pageSize: 5, //分页个数,不填默认为5     
+	                    showPageTotalFlag:true, //是否显示数据统计,不填默认不显示
+	                    showSkipInputFlag:true, //是否支持跳转,不填默认不显示
+	                    getPage: function (page) {
+	                        //获取当前页数
+	                    	ce_nav(id,10,page)     
+	                    }
+	                })     
+	           }  
+	       })
+		
+	}
+
+ 	 breadNav(); 
+} 
+
+/////////////////////面包屑导航/////////////////////
+function breadNav(){
+	$.ajax({
+		url: "Svl_MenuManage?active=getList",//json文件位置
+		type: "GET",//请求方式为get
+		dataType: "json", //返回数据格式为json
+		success: function(data) {//请求成功完成后要执行的方法
+			//each循环 使用$.each方法遍历返回的数据date
+			_menudata=data; 
+			//console.log(data);  
+			if(pm_url==0){    
+				$('#secondcenter .breadcrumb').empty();
+				$.each(data, function(i, item) {  
+					if(item.编号==m_url){	
+						var str;
+						//校园风采
+						if(m_url == 267){    
+						    str='<li><a href="index.jsp">首页</a></li><li class="active"><a href="newslist.jsp?m=267&pm=0">校园风采</a></li> '
+						}else{ 
+						    str='<li><a href="index.jsp">首页</a></li><li class="active"><a>'+item.菜单名称+'</a></li> '
+						}
+						$('#secondcenter .breadcrumb').append(str);
+					} 
+				}) 
+			}else{   
+				if(pm_url != 267){  
+					var aurl=m_url; 
+					$('#secondcenter .breadcrumb').empty(); 
+					var str='<li><a href="index.jsp">首页</a></li>'
+					$('#secondcenter .breadcrumb').append(str); 
+					fujied(aurl,'0');       
+					iddarr=iddarr.reverse();     
+					var str1,str2;       
+					$.each(iddarr, function(j, ite) {  
+						$.each(data, function(i, item) { 
+							var pmurl=iddarr[j];
+							var murl;     
+							murl=getMenuNamebyID(murl);       
+							if(iddarr[j] == item.编号){    
+								str1='<li><a href="newslist.jsp?m='+item.编号+'&pm='+item.父结点编号+'">'+item.菜单名称+'</a></li> '  
+								$('#secondcenter .breadcrumb').append(str1);         
+							}
+						})         
+					}) 
+					$.each(data, function(i, item) { 
+						if(m_url == item.编号){
+							str2='<li><a href="newslist.jsp?m='+m_url+'&pm='+pm_url+'">'+item.菜单名称+'</a></li> '  
+							$('#secondcenter .breadcrumb').append(str2);      
+						}
+					}) 
+					$('#secondcenter .breadcrumb li').eq(caid).addClass("active");   
+				}else{
+				    var str='<li><a href="index.jsp">首页</a></li><li class="active"><a href="newslist.jsp?m=267&pm=0">校园风采</a></li> '
+					$('#secondcenter .breadcrumb').append(str);
+				}
+		     }  
+
+        	var sssss = $('#center_box .new_square.btnImg div:first-child').width()
+            $('#center_box .new_square.btnImg .img-circle').height(sssss);          
+		}
+	})    
+} 
+///////////////////////////////wmzx.jsp左侧导航树形菜单//////////////////////////////////
+function leftNav(id){ 
+	$.ajax({
+		url: "Svl_MenuManage?active=getList",
+		type: "GET",
+		dataType: "json",  
+		success: function(data) {   
+			var dise_id=[];//二级菜单第一个id
+			var dise_name=[]; //二级菜单第一个菜单名
+			var mian_first; 
+			var mian_second;
+			var lmsm_second;
+			var parid;
+			
+			$.each(data, function(i,item) { 
+				if(item.PC显示==1 && item.父结点编号!=0){
+				navsecond_id.push(item.编号);//二、三级菜单父节点编号
+				navsecondp_id.push(item.父结点编号);//二、三级菜单父节点编号
+				navsecondn_id.push(item.菜单名称);//二、三级菜单父节点编号
+				}
+
+				/*侧边栏*/     
+				if(item.编号==pm_url){
+					$('.top_title').html(item.菜单名称);
+					mian_first=item.菜单名称;  
+					parid=item.父结点编号  
+				}
+				if(item.父结点编号==pm_url){
+					str = '<li><a id="a'+item.编号+'" name="'+item.父结点编号+'" onclick="cenav_click('+item.编号+','+item.父结点编号+')">'+item.菜单名称+'</a></li>';
+					$(".myTab_box ul").append(str)                 
+				}   
+				if(item.编号==m_url){
+					mian_second=item.菜单名称;
+					lmsm_second=item.栏目描述;  
+				} 
+	
+				/*二级页面面包屑导航*/  
+				if(parid == 0){     
+					var breadNav = '<li><a href="index.jsp">首页</a></li><li><a class="nav_up" href="wmzx.jsp?m=328&pm=326&mo=2">'+mian_first+'</a></li><li><a href="wmzx.jsp?m='+m_url+'&pm='+pm_url+'&mo=2" class="active" id="'+m_url+'">'+mian_second+'</a></li>';
+				}else{
+					var breadNav = '<li><a href="index.jsp">首页</a></li><li><a class="nav_up" href="wmzx.jsp?m='+pm_url+'&pm='+parid+'&mo=2">'+mian_first+'</a></li><li><a href="wmzx.jsp?m='+m_url+'&pm='+pm_url+'&mo=2" class="active" id="'+m_url+'">'+mian_second+'</a></li>';
+				}
+				$('#wmzxBox .breadcrumb').html(breadNav);  
+	
+				/*栏目说明*/   
+				if(lmsm_second != ''){    
+					$('.rightList .listTitle').html(mian_second);
+					$('.lmsm .lmsm_world').html(lmsm_second);   
+					$('.lmsm,.rightList .listTitle').css('display','block'); 
+				}else{  
+					$('.lmsm,.rightList .listTitle').css('display','none');   
+				}  
+			});  
+			$('.myTab_box ul #a'+list_ID).parent().addClass('active');  
+		}            
+});       
+}
+///////////////////////////////////文明在线 mo=2直接显示新闻+列表显示///////////////////////////////////
+function ce_nav2(id,num,page){
+   _ce_nav_id = id;    
+   _ce_nav_num = num;  
+   _pageNumber = page;
+   var str="";
+   if(num==3){  
+       tm_url=id;
+   }else{
+       tm_url=''; 
+   }    
+   var menushowtype; 
+   //新闻栏目的显示类型     
+   for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].编号==id){
+			menushowtype=_menudata[i].显示类型
+		}  
+	}     
+
+   //直接显示新闻
+  if (menushowtype && menushowtype==2){  
+   	$.ajax({
+           url: "Svl_NewsManage?active=getList&XWLM="+id+"&rows=1&page=1",
+           type: "GET",//请求方式为get
+           dataType: "json", //返回数据格式为json
+           success: function(data) {
+               if(data.rows[0].跳转 == undefined || data.rows[0].跳转 == ''){ 
+            	   location.href = data.rows[0].静态地址2+'?m='+m_url+'&pm='+pm_url+'&mo=2';
+        	   }else{
+        		   //location.href = 'https://'+data.rows[0].跳转; 
+        		   location.href = data.rows[0].跳转; 
+        	   }
+           } 
+   	});     
+   }else{ //列表显示
+		$.ajax({ 
+	           url: "Svl_NewsManage?active=getList&XWLM="+id+"&rows=10&page="+page,//json文件位置
+	           type: "GET",//请求方式为get 
+	           dataType: "json", //返回数据格式为json 
+	           success: function(data) {//请求成功完成后要执行的方法
+	               //$('#'+id+' .body_passage ul').empty();
+	        	   //console.log(data);  
+	               $('#wmzxBox #center_box,#wmzxBox #fenye').empty();    
+	               var str1='<ul class="list_news"></ul>';    
+	               $('#wmzxBox #center_box').append(str1);  
+	               $.each(data.rows, function(i,item) {   
+	            	   var str;
+	            	   if(item.跳转 == undefined || item.跳转 == ''){
+	            		   str='<a href="'+item.静态地址2+'?m='+m_url+'&pm='+pm_url+'&mo=2"><li><span><img src="images/sq_active.png" alt="·"/>&nbsp;&nbsp;'+item.新闻标题+'</span><span class="fl_right">'+(item.发布日期||'&nbsp;&nbsp;')+'</span></li></a>';
+	            	   }else{
+	            		   str='<a href="https://'+item.跳转+'"><li><span><img src="images/sq_active.png" alt="·"/>&nbsp;&nbsp;'+item.新闻标题+'</span><span class="fl_right">'+(item.发布日期||'&nbsp;&nbsp;')+'</span></li></a>';
+		               } 
+		               $('#wmzxBox #center_box ul').append(str);    
+	               });    
+	               /*  分页 */  
+		           	var feny='<div id="pagination" class="pagination"></div>';
+	                $('#wmzxBox #fenye').append(feny);       
+	                var pageNum = Math.ceil(data.total/10);    
+		               //console.log(pageNum);  
+	                new Page({   
+	                    id: 'pagination',
+	                    pageTotal: pageNum, //必填,总页数      
+	                    pageAmount: 10,  //每页多少条  
+	                    dataTotal: data.total, //总共多少条数据   
+	                    curPage:page, //初始页码,不填默认为1    
+	                    pageSize: 5, //分页个数,不填默认为5     
+	                    showPageTotalFlag:true, //是否显示数据统计,不填默认不显示
+	                    showSkipInputFlag:true, //是否支持跳转,不填默认不显示
+	                    getPage: function (page) {
+	                        //获取当前页数
+	                    	ce_nav2(id,10,page)     
+	                    }
+	                })     
+	           }  
+	       }) 
+		
+	}
+}    
+
+/*侧边栏点击判断是否有子节点*/
+function cenav_click(n,pn){
+	if(getMenulistbyID(n)==true){
+		if(getMenuNamebyID(n) !=undefined){
+			/*console.log(getMenuNamebyID(n))     */  
+			window.open('wmzx.jsp?m='+getMenuNamebyID(n)+'&pm='+n+'&mo=2','_self');  
+		}  
+	}else{ 
+		 window.open('wmzx.jsp?m='+n+'&pm='+pn+'&mo=2','_self');  
+	}  
+}
+/*获取子菜单第一个*/
+function getMenuNamebyID(ID){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].父结点编号==ID){      
+			return _menudata[i].编号   
+		}
+	}
+	return undefined;
+} 
+
+/*判断他是否有子节点返回对错*/
+function getMenulistbyID(ID){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].父结点编号==ID){
+			return true;
+			return _menudata[i].编号  
+		}
+	}
+	return false;
+} 
+/*判断他是否有子节点返回编号*/
+function getMenulistbyID2(ID){
+	for (var i=0;i<_menudata.length;i++){
+		if (_menudata[i].父结点编号==ID){
+			return _menudata[i].编号  
+		}
+	}
+	return false;
+} 
+
+//判断当前id的父节点编号
+function shuzu(num){ 
+	var zid;  
+	$.each(_menudata, function(i, item) { 
+		if(num==item.父结点编号){  
+			zid=item.编号
+		  }
+	}) 
+	return zid;
+}  
+
+//是否有父结点编号
+function fujied(aid,num){
+	burl=aid;
+	caid=num;         
+	$.each(_menudata, function(i, item) { 
+		if(item.编号==burl){   
+			burl=_menudata[i].父结点编号;  
+			caid++;  
+			iddarr.push(burl);
+			if(burl!=0){
+				fujied(burl,caid);   
+			}    
+		  }
+	})
+}
+
+function type(id){
+	var menushowtype; 
+  //新闻栏目的显示类型    
+	$.each(_menudata, function(i, item) { 
+		if (item.编号==id){ 
+			menushowtype=_menudata[i].显示类型; 
+		}  
+	})  
+ return menushowtype;
+}
+
+/*侧边栏点击判断是否有子节点*/
+function cenav_click2(n,pn){
+	if(getMenulistbyID(n)==true){
+		if(getMenuNamebyID(n) !=undefined){
+			console.log(getMenuNamebyID(n))  
+			window.open('newslist.jsp?m='+getMenuNamebyID(n)+'&pm='+n+'','_self');  
+		}  
+	}else{  
+		 window.open('newslist.jsp?m='+n+'&pm='+pn+'','_self');      
+	}    
+}
+//------------------------------搜索------------------------------//
+function search(){
+	window.open("search.jsp?w="+encodeURI($('#searchword').val()),"_self");             
+}     
+//------------------------------获取url？号后面的参数----------------------//
+//Request = GetRequest();//写在需要的页面中调用
+//var exam_ID = Request["ID"];//获取url？号后面的参数//写在需要的页面中调用
+
+function GetRequest() { 
+ var url = location.search; //获取url中"?"符后的字串 
+ var theRequest = new Object(); 
+ if (url.indexOf("?") != -1) { 
+    var str = url.substr(1); 
+    strs = str.split("&"); 
+    for(var i = 0; i < strs.length; i ++) { 
+       theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+    } 
+ } 
+ return theRequest; 
+}
+//------------------------------日期格式化----------------------//
+//new Date(data.rows[i].创建时间.time).format('yyyy-MM-dd')
+Date.prototype.format = function (format) {
+  var args = {
+      "M+": this.getMonth() + 1,
+      "d+": this.getDate(),
+      "h+": this.getHours(),
+      "m+": this.getMinutes(),
+      "s+": this.getSeconds(), 
+      "q+": Math.floor((this.getMonth() + 3) / 3),     
+      "S": this.getMilliseconds()
+  };
+  if (/(y+)/.test(format))
+      format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var i in args) {
+      var n = args[i];
+      if (new RegExp("(" + i + ")").test(format))
+          format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
+  }
+  return format;
+};
+
+//去除数组内的重复数组  
+function uniQueue(array){ 
+	var arr=[]; 
+	var m; 
+	while(array.length>0){ 
+		m=array[0]; 
+		arr.push(m); 
+		array=$.grep(array,function(n,i){ 
+		return n==m; 
+		},true); 
+	} 
+	return arr; 
+} 
